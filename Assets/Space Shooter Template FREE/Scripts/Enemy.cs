@@ -22,6 +22,8 @@ public class Enemy : MonoBehaviour {
     [HideInInspector] public float shotTimeMin, shotTimeMax; //max and min time for shooting from the beginning of the path
     #endregion
 
+    public int scoreValue = 50;
+
     private void Start()
     {
         Invoke("ActivateShooting", Random.Range(shotTimeMin, shotTimeMax));
@@ -60,7 +62,9 @@ public class Enemy : MonoBehaviour {
 
     //method of destroying the 'Enemy'
     void Destruction()                           
-    {        
+    {   
+        GameController.Instance.IncrementScore(scoreValue);
+        
         Instantiate(destructionVFX, transform.position, Quaternion.identity); 
         Destroy(gameObject);
     }

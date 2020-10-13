@@ -17,6 +17,8 @@ public class Projectile : MonoBehaviour {
     [Tooltip("Whether the projectile is destroyed in the collision, or not")]
     public bool destroyedByCollision;
 
+    public int scoreValue = 30;
+
     private void OnTriggerEnter2D(Collider2D collision) //when a projectile collides with another object
     {
         if (enemyBullet && collision.tag == "Player") //if anoter object is 'player' or 'enemy sending the command of receiving the damage
@@ -35,6 +37,7 @@ public class Projectile : MonoBehaviour {
 
     void Destruction() 
     {
+        GameController.Instance.IncrementScore(scoreValue);
         Destroy(gameObject);
     }
 }

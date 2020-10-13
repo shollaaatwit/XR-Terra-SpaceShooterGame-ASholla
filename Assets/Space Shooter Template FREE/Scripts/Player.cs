@@ -13,10 +13,19 @@ public class Player : MonoBehaviour
 
     public static Player instance; 
 
+    private Vector3 _startPosition;
+
+    private bool _isInvincible;
+
     private void Awake()
     {
         if (instance == null) 
             instance = this;
+    }
+
+    private void Start()
+    {
+        _startPosition = transform.position;
     }
 
     //method for damage proceccing by 'Player'
@@ -28,8 +37,25 @@ public class Player : MonoBehaviour
     //'Player's' destruction procedure
     void Destruction()
     {
+        if(_isInvincible)
+        {
+            return;
+        }
         Instantiate(destructionFX, transform.position, Quaternion.identity); //generating destruction visual effect and destroying the 'Player' object
-        Destroy(gameObject);
+    //    Destroy(gameObject);
+        PlayerController.Instance.PlayerKilled();
+    }
+    
+    public void RespawnPlayer()
+    {
+        transform.position = _startPosition;
+        _isInvincible = true;
+        Invoke("ClearInvincible", 2f);
+    }
+
+    private void ClearInvincible()
+    {
+        _isInvincible = false;
     }
 }
 
